@@ -1,45 +1,19 @@
-import { useState } from 'react'
-import SearchBar from './components/SearchBar'
-import FoodList from './components/FoodList'
+import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import HomePage from './pages/HomePage'
+import DetailPage from './pages/DetailPage'
+import SavedPage from './pages/SavedPage'
 
 function App() {
-  const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const handleSearch = async (query) => {
-    setLoading(true)
-
-    try {
-      const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&json=1&page_size=10`
-
-      const response = await fetch(url)
-      const data = await response.json()
-
-      const filteredProducts = data.products.filter(
-        (p) => p.product_name && p.product_name.trim() !== ''
-      )
-
-      setResults(filteredProducts)
-    } catch (error) {
-      console.error("Error:", error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div>
-      <h1>🥗 FoodFacts App</h1>
-
-      <SearchBar onSearch={handleSearch} />
-
-      {loading && <p>Loading...</p>}
-
-      {!loading && results.length === 0 && (
-        <p>Search for a food above to see its nutrition info.</p>
-      )}
-
-      <FoodList products={results} />
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:barcode" element={<DetailPage />} />
+        <Route path="/saved" element={<SavedPage />} />
+      </Routes>
     </div>
   )
 }

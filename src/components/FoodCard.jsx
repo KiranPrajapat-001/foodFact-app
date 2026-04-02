@@ -1,23 +1,41 @@
-function FoodCard({ product }) {
-  const { product_name, brands, nutriments, image_small_url } = product
+import { useNavigate } from 'react-router-dom'
+
+function FoodCard({ product, isSaved = false }) {
+  const navigate = useNavigate()
+
+  const {
+    product_name,
+    brands,
+    nutriments,
+    image_small_url,
+    code
+  } = product
+
+  const energy = nutriments?.energy_kcal || nutriments?.energy || 'N/A'
 
   return (
-    <div className="food-card">
-
-      {image_small_url ? (
-        <img src={image_small_url} alt={product_name} />
-      ) : (
-        <p>No Image</p>
-      )}
-
-      <h2>{product_name || "Unknown Product"}</h2>
-      <p>{brands || "Unknown Brand"}</p>
-
-      <p>Calories: {nutriments?.['energy-kcal_100g'] || 'N/A'} kcal</p>
-      <p>Protein: {nutriments?.proteins_100g || 'N/A'} g</p>
-      <p>Carbs: {nutriments?.carbohydrates_100g || 'N/A'} g</p>
-      <p>Fat: {nutriments?.fat_100g || 'N/A'} g</p>
-
+    <div className="food-card-small">
+      <div 
+        onClick={() => navigate(`/product/${code}`)} 
+        className="food-card-click"
+      >
+        <img
+          src={image_small_url || 'https://via.placeholder.com/120x100?text=?'}
+          alt={product_name}
+          className="food-img-small"
+        />
+        <div className="food-info-small">
+          <h4 className="food-name-small">{product_name || 'Unknown Product'}</h4>
+          <div className="food-card-meta">
+            <span>{brands || 'No brand'}</span>
+            <span>{energy} kcal</span>
+          </div>
+          <div style={{ display: 'flex', gap: '7px', alignItems: 'center', marginTop: '4px' }}>
+            <span className="recipe-tag">🍳</span>
+            {isSaved && <span className="saved-dot">★</span>}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

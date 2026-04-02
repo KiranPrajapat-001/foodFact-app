@@ -1,0 +1,11 @@
+.search_heading{
+        font-size: 2rem;
+    font-weight: bold;
+    /* Apply a linear gradient from reddish to yellow */
+    background: linear-gradient(to right, #ff4500, #ffd700);
+    -webkit-background-clip: text; /* For Chrome, Safari */
+    -webkit-text-fill-color: transparent; /* For Chrome, Safari */
+    background-clip: text; /* Standard property */
+    color: transparent; /* Fallback */
+    text-align: center;
+}
